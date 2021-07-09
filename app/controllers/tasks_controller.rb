@@ -1,4 +1,6 @@
 class TasksController < ApplicationController
+    before_action :already_login?, only: [:new, :create]
+    before_action :already_login?, only: :show
     def index
         @tasks = Task.all
     end
