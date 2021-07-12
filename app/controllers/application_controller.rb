@@ -1,21 +1,14 @@
 class ApplicationController < ActionController::Base
     helper_method :current_user
+    before_action :login_required
     
-    def login?
-        if current_user.nil?
-            redirect_to login_path, alert: "ログインしてください。"
-        end
-    end
-    
-    def already_login?
-        unless current_user.nil?
-            redirect_to tasks_path, notice: "ログインしました。"
-        end
-    end
-    
+    private
+
     def current_user
-        if session[:user_id]
-            current_user ||= User.find(session[:user_id])
-        end
+        @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
+    end
+    
+    def login_required
+        redirect_to login_url unless current_user
     end
 end

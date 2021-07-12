@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
-  before_action :already_login?, only: [:new, :create]
-  before_action :already_login?, only: :show
+  
   def new
     @user = User.new
   end
@@ -11,6 +10,7 @@ class UsersController < ApplicationController
       session[:user_id] = user.id
       redirect_to user_path, notice: "ユーザー登録されました。"
     else
+      flash.now[:danger] = 'ユーザの登録に失敗しました。'
       render :new
     end
   end
@@ -20,6 +20,6 @@ class UsersController < ApplicationController
   
   private
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation)
+    params.permit(:email, :password, :password_confirmation)
   end
 end

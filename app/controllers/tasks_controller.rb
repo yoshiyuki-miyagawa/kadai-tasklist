@@ -1,6 +1,5 @@
 class TasksController < ApplicationController
-    before_action :already_login?, only: [:new, :create]
-    before_action :already_login?, only: :show
+    
     def index
         @tasks = Task.all
     end
@@ -50,7 +49,7 @@ class TasksController < ApplicationController
     private
     
     def task_params
-    params.require(:task).permit(:content, :status)
+    params.permit(:content, :status)
     end
     
 end
