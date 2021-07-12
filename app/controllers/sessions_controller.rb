@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_action :login_required
+  before_action :require_user_logged_in, only: [:index, :show]
   
   def new
   end
@@ -11,12 +11,13 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       redirect_to root_url, notice: 'ログインしました。'
     else
+      flash.now[:danger] = 'ログインに失敗しました。'
       render :new
     end
   end
   
   def destroy
-    reset_session
+    session[:user_id] = nil
     redirect_to root_url, notice: 'ログアウトしました。'
   end
   

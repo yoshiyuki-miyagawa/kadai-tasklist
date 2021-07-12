@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :require_user_logged_in, only: [:index, :show]
   
   def new
     @user = User.new
@@ -8,7 +9,7 @@ class UsersController < ApplicationController
     user = User.new(user_params)
     if user.save
       session[:user_id] = user.id
-      redirect_to user_path, notice: "ユーザー登録されました。"
+      redirect_to root_path, notice: "ユーザー登録されました。"
     else
       flash.now[:danger] = 'ユーザの登録に失敗しました。'
       render :new
@@ -16,9 +17,11 @@ class UsersController < ApplicationController
   end
 
   def show
+   
   end
   
-  private
+    private
+    
   def user_params
     params.permit(:email, :password, :password_confirmation)
   end
