@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :require_user_logged_in, only: [:index, :show]
+  skip_before_action :require_user_logged_in
   
   def new
   end

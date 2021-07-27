@@ -6,7 +6,8 @@ Rails.application.routes.draw do
   post 'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
   
-  resources :users
-  resources :tasks, only:[:index, :show, :create, :edit, :new, :destroy, :update]
+  get 'users', to: 'users#new'
+  resources :users, only: [:new, :create]
+  resources :tasks
   
 end
